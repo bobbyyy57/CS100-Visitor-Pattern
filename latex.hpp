@@ -1,5 +1,7 @@
-#ifndef __VISITOR_HPP__
-#define __VISITOR_HPP__
+#ifndef __LATEX_HPP__
+#define __LATEX_HPP__
+
+#include <iostream>
 
 class Op;
 class Rand;
@@ -9,19 +11,22 @@ class Mult;
 class Div;
 class Pow;
 
-class Visitor{
+class Latex : public Visitor{
     public:
-        virtual ~Visitor() = default;
+     //   virtual ~Visitor() = default;
 
-        // Nodes with no children are visited only once (index = 0)
-        virtual void visit_op(Op* node) = 0;
-       /* virtual void visit_rand(Rand* node) = 0;
+	// Nodes with no children are visited only once (index = 0)
+	virtual void visit_op(Op* node) {
+		node->stringify() = "{" + node->stringify() + "}";
+	}
+/*        virtual void visit_rand(Rand* node) = 0;
 
-        // Nodes with two children are visited three times.
-        // index = 0 -> begin
-        // index = 1 -> middle
-        // index = 2 -> end
-        virtual void visit_add_begin(Add* node) = 0;
+	// Nodes with two children are visited three times.
+	// index = 0 -> begin
+	// index = 1 -> middle
+	// index = 2 -> end
+	
+	virtual void visit_add_begin(Add* node) = 0;
         virtual void visit_add_middle(Add* node) = 0;
         virtual void visit_add_end(Add* node) = 0;
         virtual void visit_sub_begin(Sub* node) = 0;
@@ -38,4 +43,20 @@ class Visitor{
         virtual void visit_pow_end(Pow* node) = 0;
 */};
 
-#endif //__VISITOR_HPP__
+std::string PrintLaTeX(Base* ptr) {
+
+	Iterator* current = new Iterator(ptr);
+	Visitor* visit = new Latex();
+	int i = 0;
+
+        while (current->is_done() != true) {
+		current->current_node()->accept(visit, i);
+		++i;
+		current->next();
+	}
+
+	return "${" + ptr->stringify() + "}$";
+}
+
+
+#endif
