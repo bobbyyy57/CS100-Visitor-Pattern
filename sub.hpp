@@ -2,6 +2,8 @@
 #define __SUB_HPP__
 
 #include "base.hpp"
+#include "iterator.hpp"
+#include "visitor.hpp"
 
 class Sub  : public Base {
     private:
@@ -18,30 +20,22 @@ class Sub  : public Base {
         virtual std::string stringify() {
                 return "(" +  std::to_string(val1->evaluate()) + " - " +  std::to_string(val2->evaluate()) + ")";
         }
-	
-	virtual int number_of_children(){
-        return 2;
-        }
-        virtual Base* get_child(int i){
-                if(i == 0){
-                return val1;
+	virtual int number_of_children() { return 2; }
+        virtual Base* get_child(int i) {
+                if (i == 0) {
+                        return val1;
                 }
-                if(i == 1){
-                return val2;
+                else {
+                        return val2;
                 }
         }
-	
-	virtual void accept(Visitor* visitor, int index){
-                if(index == 0){
-                        visit_sub_begin(this);
+
+	virtual void accept(Visitor* visitor, int index) {
+                if (index == 0) { visitor->visit_sub_begin(this); }
+                else if (index == 1) { visitor->visit_sub_middle(this); }
+                else { visitor->visit_sub_end(this); }
                 }
-                else if(index == 1){
-                        visit_sub_middle(this);
-                }
-                else{
-                        visit_sub_end(this);
-                }
-        }
+
 };
 
 #endif //__SUB_HPP__

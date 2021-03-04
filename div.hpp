@@ -2,10 +2,10 @@
 #define __DIV_HPP__
 
 #include "base.hpp"
+#include "iterator.hpp"
+#include "visitor.hpp"
 #include <string>
 #include <cmath>
-#include "visitor.hpp"
-#include "latex.hpp"
 
 class Div: public Base{
 	private:
@@ -24,29 +24,21 @@ class Div: public Base{
 	virtual std::string stringify(){
 	return ("(" + std::to_string(object1->evaluate()) + " / " + std::to_string(object2->evaluate()) +")");
 	}
+	virtual int number_of_children() { return 2; }
+        virtual Base* get_child(int i) {
+                if (i == 0) {
+                        return object1;
+                }
+                else {
+                        return object2;
+                }
+	}
 
-	virtual int number_of_children(){
-        return 2;
-        }
-        virtual Base* get_child(int i){
-                if(i == 0){
-                return object1;
+	virtual void accept(Visitor* visitor, int index) {
+                if (index == 0) { visitor->visit_div_begin(this); }
+                else if (index == 1) { visitor->visit_div_middle(this); }
+                else { visitor->visit_div_end(this); }
                 }
-                if(i == 1){
-                return object2;
-                }
-        }	
 
-	virtual void accept(Visitor* visitor, int index){
-                if(index == 0){
-                        visit_div_begin(this);
-                }
-                else if(index == 1){
-                        visit_div_middle(this);
-                }
-                else{
-                        visit_div_end(this);
-                }
-        }
 };
 #endif // __DIV_HPP__
