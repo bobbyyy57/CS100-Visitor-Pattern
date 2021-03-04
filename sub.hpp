@@ -28,16 +28,12 @@ class Sub  : public Base {
                 else {
                         return val2;
                 }
-        }/*
-	 virtual void accept(Visitor* visitor, int index) {
-                Iterator* current = new Iterator(this);
-                while (current->is_done() != true) {
-                        if (current->current_index() == 0) { visitor->visit_sub_begin(this); }
-                        if (current->current_index() == 1) { visitor->visit_sub_middle(this); }
-                        if (current->current_index() == 2) { visitor->visit_sub_end(this); }
-                        current->next();
-                }
-        }*/
+        }
+	virtual void accept(Visitor* visitor, int index) {
+                if (index == 0) { visitor->visit_sub_begin(this); }
+                else if (index == 1) { visitor->visit_sub_middle(this); }
+                else if (index == 2) { visitor->visit_sub_end(this); }
+        }
 };
 
 #endif //__SUB_HPP__

@@ -31,17 +31,10 @@ class Mult : public Base{
                         return object2;
                 }
         }
-/*
-        virtual void accept(Visitor* visitor, int index) {
-                Iterator* current = new Iterator(this);
-                while (current->is_done() != true) {
-                        if (current->current_index() == 0) { visitor->visit_mult_begin(this); }
-                        if (current->current_index() == 1) { visitor->visit_mult_middle(this); }
-                        if (current->current_index() == 2) { visitor->visit_mult_end(this); }
-                        current->next();
-                }
+	virtual void accept(Visitor* visitor, int index) {
+                if (index == 0) { visitor->visit_mult_begin(this); }
+                else if (index == 1) { visitor->visit_mult_middle(this); }
+                else if (index == 2) { visitor->visit_mult_end(this); }
         }
-*/
-
 };
 #endif //__MULT_HPP__

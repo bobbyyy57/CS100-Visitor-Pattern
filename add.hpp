@@ -10,6 +10,8 @@ class Add  : public Base {
         Base* val1;
         Base* val2;
     public:
+	~Add() = default;
+
         Add(Base* num1, Base* num2) : Base() {
                 val1 = num1;
                 val2 = num2;
@@ -29,17 +31,13 @@ class Add  : public Base {
 			return val2; 
 		}
 	}
-/*
+
         virtual void accept(Visitor* visitor, int index) {
-		Iterator* current = new Iterator(this);
-		while (current->is_done() != true) {
-			if (current->current_index() == 0) { visitor->visit_add_begin(this); }
-			if (current->current_index() == 1) { visitor->visit_add_middle(this); }
-			if (current->current_index() == 2) { visitor->visit_add_end(this); }
-			current->next();
-		}
+		if (index == 0) { visitor->visit_add_begin(this); }
+		else if (index == 1) { visitor->visit_add_middle(this); }
+		else { visitor->visit_add_end(this); }
 	}
-*/
+
 };
 
 #endif //__ADD_HPP__
