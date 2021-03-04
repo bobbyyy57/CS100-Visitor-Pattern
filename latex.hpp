@@ -2,6 +2,7 @@
 #define __LATEX_HPP__
 
 #include <iostream>
+
 #include "rand.hpp"
 class Op;
 //class Rand;
@@ -14,6 +15,7 @@ class Pow;
 using namespace std;
 
 class Latex : public Visitor{
+
     private: 
 	string desired;
     public:
@@ -29,10 +31,12 @@ class Latex : public Visitor{
 	string getDesired() { return desired; }
 	void append(string s) { desired += s; }
   
+
 	// Nodes with two children are visited three times.
 	// index = 0 -> begin
 	// index = 1 -> middle
 	// index = 2 -> end
+
 	
 	virtual void visit_add_begin(Add* node) {
 		append("({");	

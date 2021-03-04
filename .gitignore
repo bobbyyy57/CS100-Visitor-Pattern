@@ -1,9 +1,9 @@
-.swp
 CMakeCache.txt
 CMakeFiles/
-CMakeLists.txt
 Makefile
+.swp
 a.out
+test
 cmake_install.cmake
 lib/
 test

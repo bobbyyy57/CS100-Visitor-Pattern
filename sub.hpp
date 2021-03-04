@@ -29,11 +29,13 @@ class Sub  : public Base {
                         return val2;
                 }
         }
+
 	virtual void accept(Visitor* visitor, int index) {
                 if (index == 0) { visitor->visit_sub_begin(this); }
                 else if (index == 1) { visitor->visit_sub_middle(this); }
                 else if (index == 2) { visitor->visit_sub_end(this); }
         }
+
 };
 
 #endif //__SUB_HPP__

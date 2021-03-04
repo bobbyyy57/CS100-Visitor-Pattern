@@ -1,6 +1,5 @@
 #ifndef __ADD_HPP__
 #define __ADD_HPP__
-
 #include "base.hpp"
 #include "visitor.hpp"
 #include "iterator.hpp"
@@ -37,6 +36,7 @@ class Add  : public Base {
 		else if (index == 1) { visitor->visit_add_middle(this); }
 		else { visitor->visit_add_end(this); }
 	}
+
 
 };
 
