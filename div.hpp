@@ -13,7 +13,7 @@ class Div: public Base{
 	Base* object2;
      public:
 	Div(Base* one, Base* two): Base(){  object1 = one; object2 = two;}
-
+	~Div() = default;
 	virtual double evaluate(){
 	if(object2->evaluate() == 0 ){
 		return (std::nan(""));
@@ -32,13 +32,13 @@ class Div: public Base{
                 else {
                         return object2;
                 }
-	}
 
+        }
 	virtual void accept(Visitor* visitor, int index) {
                 if (index == 0) { visitor->visit_div_begin(this); }
                 else if (index == 1) { visitor->visit_div_middle(this); }
-                else { visitor->visit_div_end(this); }
-                }
+                else if (index == 2) { visitor->visit_div_end(this); }
+        }
 
 };
 #endif // __DIV_HPP__

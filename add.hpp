@@ -9,6 +9,8 @@ class Add  : public Base {
         Base* val1;
         Base* val2;
     public:
+	~Add() = default;
+
         Add(Base* num1, Base* num2) : Base() {
                 val1 = num1;
                 val2 = num2;
@@ -33,7 +35,8 @@ class Add  : public Base {
 		if (index == 0) { visitor->visit_add_begin(this); }
 		else if (index == 1) { visitor->visit_add_middle(this); }
 		else { visitor->visit_add_end(this); }
-		}
+	}
+
 
 };
 

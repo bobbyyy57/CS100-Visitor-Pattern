@@ -5,7 +5,7 @@
 
 #include "add.hpp"
 #include "op.hpp"
-#include "iterator.hpp"
+#include "iterator.cpp"
 
 TEST(AddIterator, Normal) {
 	Base* num1 = new Op(4);

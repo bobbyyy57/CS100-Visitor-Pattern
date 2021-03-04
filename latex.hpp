@@ -2,110 +2,100 @@
 #define __LATEX_HPP__
 
 #include <iostream>
-#include "op.hpp"
+
 #include "rand.hpp"
-#include "visitor.hpp"
-#include "add.hpp"
-#include "base.hpp"
-#include "mult.hpp"
-#include "sub.hpp"
-#include "pow.hpp"
-#include "div.hpp"
+class Op;
+//class Rand;
+class Add;
+class Sub;
+class Mult;
+class Div;
+class Pow;
 
 using namespace std;
 
 class Latex : public Visitor{
-	private:
-	std::string desire = "";
-	
+
+    private: 
+	string desired;
     public:
-        virtual ~Latex() = default;
+         ~Latex() = default;
 
 	// Nodes with no children are visited only once (index = 0)
 	virtual void visit_op(Op* node) {
-		desire +=  node->stringify();
+		desired += node->stringify();
 	}
-
-        virtual void visit_rand(Rand* node){
-		desire += "{" + node->stringify() + "}";
+        virtual void visit_rand(Rand* node) {
+		desired += node->stringify();
 	}
+	string getDesired() { return desired; }
+	void append(string s) { desired += s; }
+  
 
 	// Nodes with two children are visited three times.
 	// index = 0 -> begin
 	// index = 1 -> middle
 	// index = 2 -> end
-	std::string get_desire(){
-		return desire;
-	}
 
-	virtual void visit_add_begin(Add* node){
-		desire += "({";
+	
+	virtual void visit_add_begin(Add* node) {
+		append("({");	
 	}
-        virtual void visit_add_middle(Add* node){
-		desire +=  "}+{";
+        virtual void visit_add_middle(Add* node) {
+		append("}+{");
 	}
-        virtual void visit_add_end(Add* node){
-		desire += "})";
+        virtual void visit_add_end(Add* node) {
+		append("})");
 	}
-
-
-        virtual void visit_sub_begin(Sub* node){
-		desire += "({";
+	virtual void visit_sub_begin(Sub* node) {
+		append("({");
 	}
-        virtual void visit_sub_middle(Sub* node){
-		desire += "}-{";
+        virtual void visit_sub_middle(Sub* node) {
+		append("}-{");
 	}
-        virtual void visit_sub_end(Sub* node){
-		desire += "})" ;
+        virtual void visit_sub_end(Sub* node) {
+        	append("})");
 	}
-
-        virtual void visit_mult_begin(Mult* node){
-		desire += "({";
+        virtual void visit_mult_begin(Mult* node) {
+		append("({");
 	}
-        virtual void visit_mult_middle(Mult* node){
-		desire += "}\\cdot{";
+        virtual void visit_mult_middle(Mult* node) {
+		append("}\\cdot{");
 	}
-        virtual void visit_mult_end(Mult* node){
-		desire += "})";
+        virtual void visit_mult_end(Mult* node) {
+		append("})");
 	}
-
-
-
-        virtual void visit_div_begin(Div* node){
-		desire += "\\frac{";
+        virtual void visit_div_begin(Div* node) {
+		append("\\frac{");	
 	}
-        virtual void visit_div_middle(Div* node){
-		desire += "}{";
+        virtual void visit_div_middle(Div* node) {
+		append("}{");
 	}
-        virtual void visit_div_end(Div* node){
-		desire += "}";
+        virtual void visit_div_end(Div* node) {
+		append("}");
 	}
-
-        virtual void visit_pow_begin(Pow* node){
-		 desire += "({";
+        virtual void visit_pow_begin(Pow* node) {
+		append("({");
 	}
-        virtual void visit_pow_middle(Pow* node){
-		 desire += "}^{";
+        virtual void visit_pow_middle(Pow* node) {
+		append("}^{");		
 	}
-        virtual void visit_pow_end(Pow* node){
-		 desire += "})";
+        virtual void visit_pow_end(Pow* node) {
+		append("})");
 	}
-
 };
 
-
-
-string PrintLaTeX(Base* ptr){
+std::string PrintLaTeX(Base* ptr) {
 	Iterator curr(ptr);
-	Latex visitor;
-	std::string output = "";
-	while(curr.is_done() != true){
-	curr.current_node()->accept(&visitor, curr.current_index());
-	curr.next();
+	Latex visit;
+	string wanted = "";
+	while (curr.is_done() != true) {
+		curr.current_node()->accept(&visit, curr.current_index());
+		curr.next();
 	}
+	wanted += visit.getDesired();
 
-	output = output + visitor.get_desire();
-	return + "${" + output + "}$";
-}	
+	return "${" + wanted + "}$";
+}
 
 #endif
